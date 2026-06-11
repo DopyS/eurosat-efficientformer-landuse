@@ -1,0 +1,42 @@
+# Course originals kept local only
+题目要求.jpeg
+利兹2023级生产实习学生选题列表.pdf
+工程实习结题报告模板.docx
+
+# Datasets and generated artifacts
+data/
+datasets/
+outputs/
+checkpoints/
+models/
+runs/
+logs/
+
+# Model weights and exported models
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.safetensors
+
+# Local environment and secrets
+.env
+.env.*
+.venv/
+venv/
+env/
+
+# Python cache/build artifacts
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Notebook and OS artifacts
+.ipynb_checkpoints/
+.DS_Store
+
