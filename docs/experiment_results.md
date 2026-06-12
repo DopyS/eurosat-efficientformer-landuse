@@ -27,7 +27,7 @@ EuroSAT 数据集按固定随机种子划分：
 
 - 20 batch 对比：训练 20 个 batch，验证 10 个 batch。
 - 100 batch 对比：训练 100 个 batch，验证 30 个 batch。
-- 初步测试集评估：使用当前表现最好的 `baseline_100b_best.pt` 在 test split 上评估 30 个 batch。
+- 完整测试集评估：使用当前表现最好的 `baseline_100b_best.pt` 在完整 test split 上评估 4050 个样本。
 
 ## 实验配置
 
@@ -52,7 +52,7 @@ EuroSAT 数据集按固定随机种子划分：
 | `enhanced_20b` | val | 0.1906 | 2.1020 | 0.2812 | 160 |
 | `baseline_100b` | val | 0.5681 | 6.7928 | 0.7729 | 480 |
 | `enhanced_100b` | val | 0.2944 | 3.1420 | 0.7167 | 480 |
-| `baseline_100b` | test | 0.5681 | 4.8337 | 0.7521 | 480 |
+| `baseline_100b` | test | 0.5681 | 4.7938 | 0.7748 | 4050 |
 
 ## 图表路径
 
@@ -67,6 +67,8 @@ EuroSAT 数据集按固定随机种子划分：
 - `outputs/figures/baseline_100b_per_class_accuracy.png`
 - `outputs/figures/baseline_100b_test_confusion_matrix.png`
 - `outputs/figures/baseline_100b_test_per_class_accuracy.png`
+- `outputs/figures/baseline_100b_test_full_confusion_matrix.png`
+- `outputs/figures/baseline_100b_test_full_per_class_accuracy.png`
 
 100 batch 增强模型分析图：
 
@@ -81,7 +83,7 @@ EuroSAT 数据集按固定随机种子划分：
 
 3. 在 100 batch 设置下，增强策略的验证准确率仍低于基线，但验证损失更低。`baseline_100b` 的验证准确率为 0.7729，验证损失为 6.7928；`enhanced_100b` 的验证准确率为 0.7167，验证损失为 3.1420。该现象说明增强策略可能改善了模型输出的损失表现或置信度分布，但短训练条件下尚未带来更高的分类准确率。
 
-4. 当前最好模型 `baseline_100b_best.pt` 在 test split 的 480 个样本上达到 0.7521 准确率，接近验证集 0.7729 的表现，说明当前模型具备一定泛化能力。测试集上相对薄弱的类别主要包括 `River`、`Pasture` 和 `Forest`。
+4. 当前最好模型 `baseline_100b_best.pt` 在完整 test split 的 4050 个样本上达到 0.7748 准确率，接近验证集 0.7729 的表现，说明当前模型具备一定泛化能力。完整测试集上相对薄弱的类别主要包括 `River`、`Pasture`、`SeaLake`、`PermanentCrop` 和 `Forest`。
 
 5. 从基线模型的每类准确率看，`Residential`、`HerbaceousVegetation`、`AnnualCrop` 等类别表现较好，`River`、`SeaLake`、`PermanentCrop` 等类别相对较弱。后续可以通过更多训练轮数、类别级数据增强或混淆类别样本分析进一步提升这些类别的表现。
 
@@ -90,5 +92,5 @@ EuroSAT 数据集按固定随机种子划分：
 - 扩大训练规模，例如 300 batch 或完整 1 epoch，对比 baseline 和 enhanced 是否出现更稳定差异。
 - 引入学习率调度器，如 CosineAnnealingLR。
 - 保存并绘制完整训练曲线。
-- 在更充分训练后对 test split 运行最终评估，避免只依据验证集结论。
+- 在更充分训练后继续对完整 test split 运行最终评估，避免只依据验证集结论。
 - 针对混淆较多类别做样本可视化分析。

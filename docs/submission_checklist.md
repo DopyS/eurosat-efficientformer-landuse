@@ -55,7 +55,7 @@ streamlit run app/streamlit_app.py
 | --- | --- | ---: | ---: | ---: |
 | `baseline_100b` | val | 6.7928 | 0.7729 | 480 |
 | `enhanced_100b` | val | 3.1420 | 0.7167 | 480 |
-| `baseline_100b` | test | 4.8337 | 0.7521 | 480 |
+| `baseline_100b` | test | 4.7938 | 0.7748 | 4050 |
 
 重新生成实验汇总：
 
@@ -68,7 +68,7 @@ python3 -m src.eurosat_landuse.summarize_experiments --config configs/default.ya
 ```bash
 python3 -m src.eurosat_landuse.plot_experiments --config configs/default.yaml
 python3 -m src.eurosat_landuse.plot_experiments --config configs/default.yaml --eval-json outputs/metrics/baseline_100b_eval_val.json --output-prefix baseline_100b
-python3 -m src.eurosat_landuse.plot_experiments --config configs/default.yaml --eval-json outputs/metrics/baseline_100b_eval_test.json --output-prefix baseline_100b_test
+python3 -m src.eurosat_landuse.plot_experiments --config configs/default.yaml --eval-json outputs/metrics/baseline_100b_eval_test_full.json --output-prefix baseline_100b_test_full
 ```
 
 ## 4. 报告材料检查
@@ -86,8 +86,8 @@ python3 -m src.eurosat_landuse.plot_experiments --config configs/default.yaml --
 - `outputs/figures/experiment_loss.png`
 - `outputs/figures/baseline_100b_confusion_matrix.png`
 - `outputs/figures/baseline_100b_per_class_accuracy.png`
-- `outputs/figures/baseline_100b_test_confusion_matrix.png`
-- `outputs/figures/baseline_100b_test_per_class_accuracy.png`
+- `outputs/figures/baseline_100b_test_full_confusion_matrix.png`
+- `outputs/figures/baseline_100b_test_full_per_class_accuracy.png`
 - `outputs/figures/streamlit_demo_ui.png`
 
 注意：`outputs/` 目录不会上传 GitHub，正式提交报告时应将需要的图表插入 DOCX/PDF，而不是依赖 GitHub 路径。
@@ -115,4 +115,4 @@ python3 -m src.eurosat_landuse.plot_experiments --config configs/default.yaml --
 
 - 当前实验以限制 batch 的短程训练为主，主要用于验证系统链路和初步效果。
 - 增强策略在短训练下准确率未超过基线，但验证损失更低，后续需要完整 epoch 或多 epoch 训练进一步确认。
-- 测试集评估目前使用 30 个 batch、480 个样本，最终论文级结论建议扩大到完整 test split。
+- 测试集评估已覆盖完整 test split 的 4050 个样本，但训练本身仍是限制 batch 的短程训练，最终论文级结论建议继续扩大训练轮数。
