@@ -17,9 +17,22 @@
 
 ## 当前阶段
 
-当前处于第一阶段：项目初始化与开发规范建立。
+当前处于第二阶段：最小代码骨架建立。
 
-本阶段只建立公开仓库友好的基础结构，不下载数据集、不训练模型、不提交课程原始材料。
+本阶段建立可导入、可检查的代码入口，不下载数据集、不训练模型、不提交课程原始材料。
+
+## 当前可用入口
+
+第二阶段提供最小代码入口，当前可运行的脚本包括：
+
+```bash
+python -m src.eurosat_landuse.train --config configs/default.yaml
+python -m src.eurosat_landuse.evaluate --config configs/default.yaml
+python -m src.eurosat_landuse.predict --config configs/default.yaml --image path/to/image.jpg
+streamlit run app/streamlit_app.py
+```
+
+这些入口目前仍属于 scaffold，主要用于确认项目结构、配置读取和后续接线位置。
 
 ## 开发流程
 
@@ -49,4 +62,3 @@ streamlit run app/streamlit_app.py
 ```
 
 这些命令当前只是接口规划，第一阶段暂不实现完整训练逻辑。
-
