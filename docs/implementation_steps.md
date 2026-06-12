@@ -32,6 +32,8 @@
 - 能打印类别名称和样本数量。
 - 能取出一个 batch。
 - 能显示若干样本图像。
+- 能通过 `python -m src.eurosat_landuse.data_smoke --config configs/default.yaml --check-only` 检查配置和依赖状态。
+- 安装依赖后，能通过 `python -m src.eurosat_landuse.data_smoke --config configs/default.yaml --download --batch-size 8` 读取一个训练 batch。
 
 ## 阶段 4：EfficientFormerV2 基线
 
@@ -72,4 +74,3 @@
 - 报告章节结构完整。
 - 实验图表可追溯到具体配置和日志。
 - 结论部分能客观说明完成工作与不足。
-

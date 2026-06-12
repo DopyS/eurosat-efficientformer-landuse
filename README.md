@@ -29,10 +29,17 @@
 python -m src.eurosat_landuse.train --config configs/default.yaml
 python -m src.eurosat_landuse.evaluate --config configs/default.yaml
 python -m src.eurosat_landuse.predict --config configs/default.yaml --image path/to/image.jpg
+python -m src.eurosat_landuse.data_smoke --config configs/default.yaml --check-only
 streamlit run app/streamlit_app.py
 ```
 
 这些入口目前仍属于 scaffold，主要用于确认项目结构、配置读取和后续接线位置。
+
+安装 PyTorch 和 torchvision 后，可以运行真实数据 smoke test：
+
+```bash
+python -m src.eurosat_landuse.data_smoke --config configs/default.yaml --download --batch-size 8
+```
 
 ## 开发流程
 
