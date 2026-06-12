@@ -130,6 +130,8 @@ def run_training(
         lr=float(training_cfg.get("learning_rate", 0.0003)),
         weight_decay=float(training_cfg.get("weight_decay", 0.0001)),
     )
+    mixup_alpha = float(training_cfg.get("mixup_alpha", 0.0))
+    print(f"- mixup_alpha: {mixup_alpha}")
 
     resolved_run_name = run_name or datetime.now().strftime("baseline_%Y%m%d_%H%M%S")
     metrics_history = []
@@ -144,6 +146,7 @@ def run_training(
             device,
             optimizer=optimizer,
             max_batches=max_train_batches,
+            mixup_alpha=mixup_alpha,
         )
         val_metrics = run_one_epoch(
             model,
@@ -152,6 +155,7 @@ def run_training(
             device,
             optimizer=None,
             max_batches=max_val_batches,
+            mixup_alpha=0.0,
         )
         epoch_metrics = {
             "epoch": epoch,
@@ -180,7 +184,16 @@ def run_training(
         print(f"- best checkpoint saved to: {best_checkpoint_path}")
 
 
-def run_one_epoch(model, dataloader, criterion, device, *, optimizer=None, max_batches: int | None = None) -> dict[str, float]:
+def run_one_epoch(
+    model,
+    dataloader,
+    criterion,
+    device,
+    *,
+    optimizer=None,
+    max_batches: int | None = None,
+    mixup_alpha: float = 0.0,
+) -> dict[str, float]:
     torch = __import__("torch")
     is_training = optimizer is not None
     model.train(is_training)
@@ -198,15 +211,22 @@ def run_one_epoch(model, dataloader, criterion, device, *, optimizer=None, max_b
 
             if is_training:
                 optimizer.zero_grad(set_to_none=True)
-            outputs = model(images)
-            loss = criterion(outputs, labels)
+            if is_training and mixup_alpha > 0:
+                mixed_images, labels_a, labels_b, lam = apply_mixup(images, labels, mixup_alpha)
+                outputs = model(mixed_images)
+                loss = lam * criterion(outputs, labels_a) + (1 - lam) * criterion(outputs, labels_b)
+                hard_labels = labels
+            else:
+                outputs = model(images)
+                loss = criterion(outputs, labels)
+                hard_labels = labels
             if is_training:
                 loss.backward()
                 optimizer.step()
 
             batch_size = labels.size(0)
             total_loss += loss.item() * batch_size
-            total_correct += (outputs.argmax(dim=1) == labels).sum().item()
+            total_correct += (outputs.argmax(dim=1) == hard_labels).sum().item()
             total_samples += batch_size
 
     if total_samples == 0:
@@ -215,6 +235,17 @@ def run_one_epoch(model, dataloader, criterion, device, *, optimizer=None, max_b
         "loss": total_loss / total_samples,
         "accuracy": total_correct / total_samples,
     }
+
+
+def apply_mixup(images, labels, alpha: float):
+    torch = __import__("torch")
+    if alpha <= 0:
+        return images, labels, labels, 1.0
+    beta = torch.distributions.Beta(alpha, alpha)
+    lam = float(beta.sample().item())
+    index = torch.randperm(images.size(0), device=images.device)
+    mixed_images = lam * images + (1 - lam) * images[index]
+    return mixed_images, labels, labels[index], lam
 
 
 def save_checkpoint(model, config, run_name: str, epoch: int, val_accuracy: float):

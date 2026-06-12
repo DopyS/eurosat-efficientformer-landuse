@@ -58,6 +58,7 @@
 - 基线与增强模型配置可区分。
 - 记录准确率、损失和混淆矩阵。
 - 能说明增强策略带来的影响。
+- 能用同样的 batch 限制运行 baseline/enhanced，对比 `configs/baseline.yaml` 与 `configs/enhanced.yaml` 的结果。
 
 ## 阶段 6：Web 演示界面
 

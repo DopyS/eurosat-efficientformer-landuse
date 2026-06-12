@@ -1,0 +1,40 @@
+project:
+  name: eurosat-efficientformer-landuse
+  title: "基于 EfficientFormerV2 与增强训练策略的 EuroSAT 遥感土地利用图像分类系统设计与实现"
+  seed: 42
+
+data:
+  dataset_name: EuroSAT
+  root: data/eurosat
+  image_size: 224
+  train_ratio: 0.7
+  val_ratio: 0.15
+  test_ratio: 0.15
+  num_workers: 2
+
+model:
+  name: efficientformerv2_s0
+  num_classes: 10
+  pretrained: true
+
+training:
+  epochs: 10
+  batch_size: 32
+  learning_rate: 0.0003
+  weight_decay: 0.0001
+  label_smoothing: 0.1
+  mixup_alpha: 0.2
+  use_amp: false
+
+augmentation:
+  random_resized_crop: true
+  horizontal_flip: true
+  color_jitter: true
+
+outputs:
+  root: outputs
+  checkpoints: outputs/checkpoints
+  figures: outputs/figures
+  metrics: outputs/metrics
+  predictions: outputs/predictions
+

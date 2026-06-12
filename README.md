@@ -53,6 +53,12 @@ python -m src.eurosat_landuse.train --config configs/default.yaml --smoke-test -
 python -m src.eurosat_landuse.train --config configs/default.yaml --download --epochs 1 --batch-size 8 --max-train-batches 5 --max-val-batches 2 --run-name quick_baseline
 ```
 
+增强训练策略对比示例：
+
+```bash
+python -m src.eurosat_landuse.train --config configs/enhanced.yaml --download --epochs 1 --batch-size 16 --max-train-batches 20 --max-val-batches 10 --run-name enhanced_20b
+```
+
 评估已保存 checkpoint：
 
 ```bash
