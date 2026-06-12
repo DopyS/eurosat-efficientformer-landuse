@@ -46,6 +46,8 @@
 - 预测结果展示
 - 系统运行示例
 
+当前界面入口为 `app/streamlit_app.py`，可通过 `streamlit run app/streamlit_app.py` 启动。
+
 ## 结论
 
 - 总结已经完成的工作。

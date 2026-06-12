@@ -79,6 +79,18 @@ python -m src.eurosat_landuse.plot_experiments --config configs/default.yaml
 python -m src.eurosat_landuse.plot_experiments --config configs/default.yaml --eval-json outputs/metrics/baseline_100b_eval_val.json --output-prefix baseline_100b
 ```
 
+命令行单图预测：
+
+```bash
+python -m src.eurosat_landuse.predict --config configs/default.yaml --checkpoint outputs/checkpoints/baseline_100b_best.pt --image path/to/image.jpg --top-k 3
+```
+
+启动 Web 演示界面：
+
+```bash
+streamlit run app/streamlit_app.py
+```
+
 ## 开发流程
 
 1. 每次开发前查看当天 `dev_logs/YYYY-MM-DD.md`。
