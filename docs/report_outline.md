@@ -39,6 +39,8 @@
 
 当前可参考 [experiment_results.md](experiment_results.md) 中的实验结果整理、图表路径和初步结论。
 
+正文草稿可参考 [report_chapter_drafts.md](report_chapter_drafts.md)，其中已经整理摘要、第 1-5 章、结论与图表清单。
+
 ## 第 5 章 Web 演示系统
 
 - 系统功能设计

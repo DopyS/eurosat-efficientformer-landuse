@@ -11,20 +11,21 @@
 - [docs/development_standards.md](docs/development_standards.md)：开发规范、实验记录规范和 Git 同步规则。
 - [docs/implementation_steps.md](docs/implementation_steps.md)：分阶段开发步骤和验收标准。
 - [docs/report_outline.md](docs/report_outline.md)：结题报告章节结构和写作素材规划。
+- [docs/report_chapter_drafts.md](docs/report_chapter_drafts.md)：报告正文草稿、章节素材和图表清单。
 - [docs/experiment_results.md](docs/experiment_results.md)：当前实验结果、图表路径和报告分析素材。
 - [dev_logs/README.md](dev_logs/README.md)：开发日志使用说明。
-- [dev_logs/2026-06-11.md](dev_logs/2026-06-11.md)：当前开发日志。
+- [dev_logs/2026-06-12.md](dev_logs/2026-06-12.md)：当前开发日志。
 - [configs/default.yaml](configs/default.yaml)：默认实验配置。
 
 ## 当前阶段
 
-当前处于第二阶段：最小代码骨架建立。
+当前已完成可运行项目本体：EuroSAT 数据加载、EfficientFormerV2-S0 训练、增强训练配置、checkpoint 评估、实验汇总、图表生成、命令行预测和 Streamlit Web 演示界面。
 
-本阶段建立可导入、可检查的代码入口，不下载数据集、不训练模型、不提交课程原始材料。
+后续重点是扩大实验规模、整理报告正文、完善图表和撰写结论分析。
 
 ## 当前可用入口
 
-第二阶段提供最小代码入口，当前可运行的脚本包括：
+当前可运行的核心入口包括：
 
 ```bash
 python -m src.eurosat_landuse.train --config configs/default.yaml
@@ -33,8 +34,6 @@ python -m src.eurosat_landuse.predict --config configs/default.yaml --image path
 python -m src.eurosat_landuse.data_smoke --config configs/default.yaml --check-only
 streamlit run app/streamlit_app.py
 ```
-
-这些入口目前仍属于 scaffold，主要用于确认项目结构、配置读取和后续接线位置。
 
 安装 PyTorch 和 torchvision 后，可以运行真实数据 smoke test：
 
@@ -91,6 +90,8 @@ python -m src.eurosat_landuse.predict --config configs/default.yaml --checkpoint
 streamlit run app/streamlit_app.py
 ```
 
+当前实验结果和报告可引用图表路径见 [docs/experiment_results.md](docs/experiment_results.md)，报告正文草稿见 [docs/report_chapter_drafts.md](docs/report_chapter_drafts.md)。
+
 ## 开发流程
 
 1. 每次开发前查看当天 `dev_logs/YYYY-MM-DD.md`。
@@ -108,14 +109,9 @@ streamlit run app/streamlit_app.py
 - 训练输出、模型权重、日志缓存和本地环境文件。
 - 任何 token、账号、路径隐私或未整理的草稿。
 
-## 后续命令规划
+## 后续工作
 
-后续代码阶段会逐步补充以下命令：
-
-```bash
-python -m src.eurosat_landuse.train --config configs/default.yaml
-python -m src.eurosat_landuse.evaluate --config configs/default.yaml
-streamlit run app/streamlit_app.py
-```
-
-这些命令当前只是接口规划，第一阶段暂不实现完整训练逻辑。
+- 运行更完整的训练实验，例如完整 1 epoch 或多 epoch baseline/enhanced 对比。
+- 将本地 `outputs/figures/` 中的图表整理到结题报告中。
+- 基于 [docs/report_chapter_drafts.md](docs/report_chapter_drafts.md) 扩写正式报告。
+- 针对混淆类别补充样本可视化和原因分析。
