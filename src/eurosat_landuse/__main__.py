@@ -13,6 +13,7 @@ def main() -> int:
     print("  python -m src.eurosat_landuse.data_smoke --config configs/default.yaml --check-only")
     print("  python -m src.eurosat_landuse.summarize_experiments --config configs/default.yaml")
     print("  python -m src.eurosat_landuse.plot_experiments --config configs/default.yaml")
+    print("  python -m src.eurosat_landuse.analyze_errors --eval-json outputs/metrics/baseline_100b_eval_test_full.json")
     return 0
 
 

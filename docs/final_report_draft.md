@@ -249,6 +249,8 @@ python -m src.eurosat_landuse.evaluate --config configs/baseline.yaml --checkpoi
 - `Pasture` 与 `HerbaceousVegetation`、`AnnualCrop` 在绿色植被纹理上具有相似性。
 - `Forest` 类别虽然整体纹理明显，但在短训练和有限评估 batch 下可能受样本分布影响。
 
+进一步统计混淆矩阵可知，完整测试集中最明显的错误方向为 `River -> Highway`，共有 146 个样本，占 River 类测试样本的 0.3605。其他主要混淆包括 `Forest -> SeaLake` 76 个、`SeaLake -> AnnualCrop` 76 个、`PermanentCrop -> HerbaceousVegetation` 74 个、`Pasture -> Forest` 55 个。这些混淆方向说明，模型在处理线状地物、水体边界、植被覆盖和农田纹理等场景时仍存在不足。
+
 后续可通过更多训练轮数、类别均衡分析、错误样本可视化和 Grad-CAM 可解释性方法进一步分析这些类别。
 
 ## 第 5 章 Web 演示系统

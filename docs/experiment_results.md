@@ -87,6 +87,20 @@ EuroSAT 数据集按固定随机种子划分：
 
 5. 从基线模型的每类准确率看，`Residential`、`HerbaceousVegetation`、`AnnualCrop` 等类别表现较好，`River`、`SeaLake`、`PermanentCrop` 等类别相对较弱。后续可以通过更多训练轮数、类别级数据增强或混淆类别样本分析进一步提升这些类别的表现。
 
+6. 完整测试集错误分析显示，主要混淆方向包括 `River -> Highway` 146 个、`Forest -> SeaLake` 76 个、`SeaLake -> AnnualCrop` 76 个、`PermanentCrop -> HerbaceousVegetation` 74 个、`Pasture -> Forest` 55 个。该结果可用于报告第 4 章的类别混淆分析。
+
+## 错误分析输出
+
+错误分析 Markdown 可由以下命令生成：
+
+```bash
+python3 -m src.eurosat_landuse.analyze_errors --eval-json outputs/metrics/baseline_100b_eval_test_full.json
+```
+
+本地输出路径：
+
+- `outputs/metrics/baseline_100b_eval_test_full_error_analysis.md`
+
 ## 后续实验建议
 
 - 扩大训练规模，例如 300 batch 或完整 1 epoch，对比 baseline 和 enhanced 是否出现更稳定差异。

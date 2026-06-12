@@ -71,6 +71,12 @@ python3 -m src.eurosat_landuse.plot_experiments --config configs/default.yaml --
 python3 -m src.eurosat_landuse.plot_experiments --config configs/default.yaml --eval-json outputs/metrics/baseline_100b_eval_test_full.json --output-prefix baseline_100b_test_full
 ```
 
+重新生成错误分析：
+
+```bash
+python3 -m src.eurosat_landuse.analyze_errors --eval-json outputs/metrics/baseline_100b_eval_test_full.json
+```
+
 ## 4. 报告材料检查
 
 核心报告文档：

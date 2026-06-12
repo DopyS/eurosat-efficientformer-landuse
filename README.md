@@ -80,6 +80,12 @@ python -m src.eurosat_landuse.plot_experiments --config configs/default.yaml
 python -m src.eurosat_landuse.plot_experiments --config configs/default.yaml --eval-json outputs/metrics/baseline_100b_eval_val.json --output-prefix baseline_100b
 ```
 
+生成错误分析 Markdown：
+
+```bash
+python -m src.eurosat_landuse.analyze_errors --eval-json outputs/metrics/baseline_100b_eval_test_full.json
+```
+
 命令行单图预测：
 
 ```bash
