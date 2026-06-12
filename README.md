@@ -47,6 +47,12 @@ python -m src.eurosat_landuse.data_smoke --config configs/default.yaml --downloa
 python -m src.eurosat_landuse.train --config configs/default.yaml --smoke-test --download --batch-size 4
 ```
 
+短程 baseline 训练示例：
+
+```bash
+python -m src.eurosat_landuse.train --config configs/default.yaml --download --epochs 1 --batch-size 8 --max-train-batches 5 --max-val-batches 2 --run-name quick_baseline
+```
+
 ## 开发流程
 
 1. 每次开发前查看当天 `dev_logs/YYYY-MM-DD.md`。
