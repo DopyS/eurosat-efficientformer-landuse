@@ -59,6 +59,12 @@ python -m src.eurosat_landuse.train --config configs/default.yaml --download --e
 python -m src.eurosat_landuse.evaluate --config configs/default.yaml --checkpoint outputs/checkpoints/quick_baseline_best.pt --split val --batch-size 8 --max-batches 2 --run-name quick_eval_val
 ```
 
+汇总本地实验结果：
+
+```bash
+python -m src.eurosat_landuse.summarize_experiments --config configs/default.yaml
+```
+
 ## 开发流程
 
 1. 每次开发前查看当天 `dev_logs/YYYY-MM-DD.md`。

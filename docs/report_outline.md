@@ -59,4 +59,4 @@
 - 验证准确率曲线。
 - 混淆矩阵。
 - Web 界面截图。
-
+- 实验对比表，可由 `outputs/metrics/experiment_summary.csv` 整理得到。

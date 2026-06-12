@@ -11,6 +11,7 @@ def main() -> int:
     print("  python -m src.eurosat_landuse.evaluate --config configs/default.yaml")
     print("  python -m src.eurosat_landuse.predict --config configs/default.yaml --image path/to/image.jpg")
     print("  python -m src.eurosat_landuse.data_smoke --config configs/default.yaml --check-only")
+    print("  python -m src.eurosat_landuse.summarize_experiments --config configs/default.yaml")
     return 0
 
 
