@@ -46,6 +46,7 @@
 - 能保存本地 checkpoint。
 - 能输出验证集准确率和损失曲线。
 - 能通过限制 batch 的短程 baseline 训练保存本地 metrics JSON 和 best checkpoint。
+- 能通过独立评估脚本加载 checkpoint，输出 val/test 的整体指标和逐类准确率。
 
 ## 阶段 5：增强训练策略
 
