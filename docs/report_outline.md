@@ -61,3 +61,4 @@
 - Web 界面截图。
 - 实验对比表，可由 `outputs/metrics/experiment_summary.csv` 整理得到。
 - 实验对比图，可由 `outputs/figures/experiment_accuracy.png` 和 `outputs/figures/experiment_loss.png` 整理得到。
+- 每类准确率图和混淆矩阵图，可由指定评估 JSON 生成。

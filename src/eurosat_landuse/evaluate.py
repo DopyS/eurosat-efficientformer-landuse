@@ -97,6 +97,7 @@ def evaluate_model(model, dataloader, criterion, device, *, num_classes: int, ma
     total_samples = 0
     class_correct = [0 for _ in range(num_classes)]
     class_total = [0 for _ in range(num_classes)]
+    confusion_matrix = [[0 for _ in range(num_classes)] for _ in range(num_classes)]
 
     with torch.no_grad():
         for batch_idx, (images, labels) in enumerate(dataloader, start=1):
@@ -115,6 +116,7 @@ def evaluate_model(model, dataloader, criterion, device, *, num_classes: int, ma
 
             for label, prediction in zip(labels.cpu().tolist(), predictions.cpu().tolist(), strict=True):
                 class_total[label] += 1
+                confusion_matrix[label][prediction] += 1
                 if label == prediction:
                     class_correct[label] += 1
 
@@ -139,6 +141,7 @@ def evaluate_model(model, dataloader, criterion, device, *, num_classes: int, ma
         "accuracy": total_correct / total_samples,
         "total_samples": total_samples,
         "per_class": per_class,
+        "confusion_matrix": confusion_matrix,
     }
 
 

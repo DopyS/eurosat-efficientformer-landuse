@@ -75,6 +75,7 @@ python -m src.eurosat_landuse.summarize_experiments --config configs/default.yam
 
 ```bash
 python -m src.eurosat_landuse.plot_experiments --config configs/default.yaml
+python -m src.eurosat_landuse.plot_experiments --config configs/default.yaml --eval-json outputs/metrics/baseline_100b_eval_val.json --output-prefix baseline_100b
 ```
 
 ## 开发流程
