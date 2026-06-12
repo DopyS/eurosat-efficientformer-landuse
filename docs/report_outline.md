@@ -41,6 +41,8 @@
 
 正文草稿可参考 [report_chapter_drafts.md](report_chapter_drafts.md)，其中已经整理摘要、第 1-5 章、结论与图表清单。
 
+正式报告 Markdown 初稿见 [final_report_draft.md](final_report_draft.md)，可作为迁移到学校 DOCX 模板前的主要文字版本。提交前检查见 [submission_checklist.md](submission_checklist.md)。
+
 ## 第 5 章 Web 演示系统
 
 - 系统功能设计

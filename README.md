@@ -12,6 +12,8 @@
 - [docs/implementation_steps.md](docs/implementation_steps.md)：分阶段开发步骤和验收标准。
 - [docs/report_outline.md](docs/report_outline.md)：结题报告章节结构和写作素材规划。
 - [docs/report_chapter_drafts.md](docs/report_chapter_drafts.md)：报告正文草稿、章节素材和图表清单。
+- [docs/final_report_draft.md](docs/final_report_draft.md)：可迁移到学校 DOCX 模板的正式报告 Markdown 初稿。
+- [docs/submission_checklist.md](docs/submission_checklist.md)：提交前检查清单、报告材料和 GitHub 安全检查。
 - [docs/experiment_results.md](docs/experiment_results.md)：当前实验结果、图表路径和报告分析素材。
 - [dev_logs/README.md](dev_logs/README.md)：开发日志使用说明。
 - [dev_logs/2026-06-12.md](dev_logs/2026-06-12.md)：当前开发日志。
@@ -90,7 +92,7 @@ python -m src.eurosat_landuse.predict --config configs/default.yaml --checkpoint
 streamlit run app/streamlit_app.py
 ```
 
-当前实验结果和报告可引用图表路径见 [docs/experiment_results.md](docs/experiment_results.md)，报告正文草稿见 [docs/report_chapter_drafts.md](docs/report_chapter_drafts.md)。
+当前实验结果和报告可引用图表路径见 [docs/experiment_results.md](docs/experiment_results.md)，正式报告初稿见 [docs/final_report_draft.md](docs/final_report_draft.md)，提交前检查见 [docs/submission_checklist.md](docs/submission_checklist.md)。
 
 ## 开发流程
 

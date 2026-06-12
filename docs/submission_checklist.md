@@ -1,0 +1,118 @@
+# 提交前检查清单
+
+本文档用于正式提交课程材料、同步 GitHub 或整理报告前检查项目状态。
+
+## 1. GitHub 仓库检查
+
+- 确认远程仓库地址为 `https://github.com/DopyS/eurosat-efficientformer-landuse.git`。
+- 确认仓库为 Public 时，不包含课程原件、数据集、模型权重、实验输出和隐私信息。
+- 提交前运行：
+
+```bash
+git status --short
+git check-ignore -v 题目要求.jpeg 利兹2023级生产实习学生选题列表.pdf 工程实习结题报告模板.docx
+git check-ignore -v data/eurosat outputs/checkpoints outputs/figures outputs/metrics
+```
+
+## 2. 代码功能检查
+
+基础语法检查：
+
+```bash
+python3 -m compileall src app
+```
+
+数据读取检查：
+
+```bash
+python3 -m src.eurosat_landuse.data_smoke --config configs/default.yaml --check-only
+python3 -m src.eurosat_landuse.data_smoke --config configs/default.yaml --download --batch-size 8
+```
+
+训练 smoke test：
+
+```bash
+python3 -m src.eurosat_landuse.train --config configs/default.yaml --smoke-test --download --batch-size 4
+```
+
+单图预测检查：
+
+```bash
+python3 -m src.eurosat_landuse.predict --config configs/default.yaml --checkpoint outputs/checkpoints/baseline_100b_best.pt --image path/to/image.jpg --top-k 3
+```
+
+Web 界面检查：
+
+```bash
+streamlit run app/streamlit_app.py
+```
+
+## 3. 实验结果检查
+
+当前报告可引用的核心结果：
+
+| Run | Split | Eval Loss | Eval Acc | Eval Samples |
+| --- | --- | ---: | ---: | ---: |
+| `baseline_100b` | val | 6.7928 | 0.7729 | 480 |
+| `enhanced_100b` | val | 3.1420 | 0.7167 | 480 |
+| `baseline_100b` | test | 4.8337 | 0.7521 | 480 |
+
+重新生成实验汇总：
+
+```bash
+python3 -m src.eurosat_landuse.summarize_experiments --config configs/default.yaml
+```
+
+重新生成实验图表：
+
+```bash
+python3 -m src.eurosat_landuse.plot_experiments --config configs/default.yaml
+python3 -m src.eurosat_landuse.plot_experiments --config configs/default.yaml --eval-json outputs/metrics/baseline_100b_eval_val.json --output-prefix baseline_100b
+python3 -m src.eurosat_landuse.plot_experiments --config configs/default.yaml --eval-json outputs/metrics/baseline_100b_eval_test.json --output-prefix baseline_100b_test
+```
+
+## 4. 报告材料检查
+
+核心报告文档：
+
+- `docs/final_report_draft.md`：正式报告 Markdown 初稿。
+- `docs/report_chapter_drafts.md`：章节草稿与素材池。
+- `docs/experiment_results.md`：实验结果、图表路径和分析结论。
+- `docs/report_outline.md`：报告提纲。
+
+需要从本地插入报告模板的图片：
+
+- `outputs/figures/experiment_accuracy.png`
+- `outputs/figures/experiment_loss.png`
+- `outputs/figures/baseline_100b_confusion_matrix.png`
+- `outputs/figures/baseline_100b_per_class_accuracy.png`
+- `outputs/figures/baseline_100b_test_confusion_matrix.png`
+- `outputs/figures/baseline_100b_test_per_class_accuracy.png`
+- `outputs/figures/streamlit_demo_ui.png`
+
+注意：`outputs/` 目录不会上传 GitHub，正式提交报告时应将需要的图表插入 DOCX/PDF，而不是依赖 GitHub 路径。
+
+## 5. 建议提交材料
+
+推荐提交：
+
+- 整理后的结题报告 DOCX/PDF。
+- GitHub 仓库链接。
+- 项目源码压缩包，需排除 `data/`、`outputs/`、模型权重和课程原始材料。
+- 若老师要求演示，可本地保留 `outputs/checkpoints/baseline_100b_best.pt` 和 EuroSAT 数据集。
+
+不建议提交：
+
+- `data/` 或 `datasets/`。
+- `outputs/` 原始产物。
+- `*.pt`、`*.pth`、`*.ckpt`、`*.onnx`、`*.safetensors`。
+- `.env`、缓存文件、虚拟环境目录。
+- 未整理的课程原始文件。
+
+## 6. 当前不足说明
+
+如果在报告答辩或说明中被问到实验限制，可以客观说明：
+
+- 当前实验以限制 batch 的短程训练为主，主要用于验证系统链路和初步效果。
+- 增强策略在短训练下准确率未超过基线，但验证损失更低，后续需要完整 epoch 或多 epoch 训练进一步确认。
+- 测试集评估目前使用 30 个 batch、480 个样本，最终论文级结论建议扩大到完整 test split。
