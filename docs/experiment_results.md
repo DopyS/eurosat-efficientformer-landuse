@@ -1,0 +1,89 @@
+# 实验结果整理
+
+本文档汇总当前阶段可用于结题报告第 4 章的实验设置、结果表、图表路径和初步分析结论。`outputs/` 下的原始实验产物不提交到 GitHub，但本地可直接查看和引用。
+
+## 实验环境
+
+- Python：3.11
+- 深度学习框架：PyTorch 2.12.0
+- 图像模型库：timm 1.0.27
+- 数据集工具：torchvision 0.27.0
+- 运行设备：Apple MPS
+- 数据集：EuroSAT RGB
+- 模型：EfficientFormerV2-S0
+- 类别数：10
+
+## 数据划分
+
+EuroSAT 数据集按固定随机种子划分：
+
+| Split | Samples |
+| --- | ---: |
+| Train | 18900 |
+| Val | 4050 |
+| Test | 4050 |
+
+当前阶段为了快速验证方法链路，主要使用限制 batch 的验证实验：
+
+- 20 batch 对比：训练 20 个 batch，验证 10 个 batch。
+- 100 batch 对比：训练 100 个 batch，验证 30 个 batch。
+
+## 实验配置
+
+| Config | Mixup | Label Smoothing | ColorJitter | Purpose |
+| --- | ---: | ---: | ---: | --- |
+| `configs/baseline.yaml` | 0.0 | 0.0 | false | 基线训练 |
+| `configs/enhanced.yaml` | 0.2 | 0.1 | true | 增强训练策略 |
+
+## 主要实验结果
+
+完整实验汇总可由本地文件查看：
+
+- `outputs/metrics/experiment_summary.csv`
+- `outputs/metrics/experiment_summary.md`
+
+当前核心结果如下：
+
+| Run | Train Acc | Val Loss | Val Acc | Eval Samples |
+| --- | ---: | ---: | ---: | ---: |
+| `quick_baseline` | 0.0500 | 2.3112 | 0.0625 | 16 |
+| `medium_baseline_20b` | 0.3000 | 2.0115 | 0.3563 | 160 |
+| `enhanced_20b` | 0.1906 | 2.1020 | 0.2812 | 160 |
+| `baseline_100b` | 0.5681 | 6.7928 | 0.7729 | 480 |
+| `enhanced_100b` | 0.2944 | 3.1420 | 0.7167 | 480 |
+
+## 图表路径
+
+实验对比图：
+
+- `outputs/figures/experiment_accuracy.png`
+- `outputs/figures/experiment_loss.png`
+
+100 batch 基线模型分析图：
+
+- `outputs/figures/baseline_100b_confusion_matrix.png`
+- `outputs/figures/baseline_100b_per_class_accuracy.png`
+
+100 batch 增强模型分析图：
+
+- `outputs/figures/enhanced_100b_confusion_matrix.png`
+- `outputs/figures/enhanced_100b_per_class_accuracy.png`
+
+## 初步分析结论
+
+1. 随着训练 batch 数增加，模型准确率明显提升。`quick_baseline` 的验证准确率只有 0.0625，而 `baseline_100b` 达到 0.7729，说明 EfficientFormerV2-S0 能够有效学习 EuroSAT 图像特征。
+
+2. 在相同 20 batch 设置下，增强策略的验证准确率低于基线。`medium_baseline_20b` 的验证准确率为 0.3563，`enhanced_20b` 为 0.2812。这说明 Mixup、ColorJitter 和 Label Smoothing 在极短训练下可能增加优化难度。
+
+3. 在 100 batch 设置下，增强策略的验证准确率仍低于基线，但验证损失更低。`baseline_100b` 的验证准确率为 0.7729，验证损失为 6.7928；`enhanced_100b` 的验证准确率为 0.7167，验证损失为 3.1420。该现象说明增强策略可能改善了模型输出的损失表现或置信度分布，但短训练条件下尚未带来更高的分类准确率。
+
+4. 从基线模型的每类准确率看，`Residential`、`HerbaceousVegetation`、`AnnualCrop` 等类别表现较好，`River`、`SeaLake`、`PermanentCrop` 等类别相对较弱。后续可以通过更多训练轮数、类别级数据增强或混淆类别样本分析进一步提升这些类别的表现。
+
+## 后续实验建议
+
+- 扩大训练规模，例如 300 batch 或完整 1 epoch，对比 baseline 和 enhanced 是否出现更稳定差异。
+- 引入学习率调度器，如 CosineAnnealingLR。
+- 保存并绘制完整训练曲线。
+- 对 test split 运行最终评估，避免只依据验证集结论。
+- 针对混淆较多类别做样本可视化分析。
+

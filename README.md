@@ -11,6 +11,7 @@
 - [docs/development_standards.md](docs/development_standards.md)：开发规范、实验记录规范和 Git 同步规则。
 - [docs/implementation_steps.md](docs/implementation_steps.md)：分阶段开发步骤和验收标准。
 - [docs/report_outline.md](docs/report_outline.md)：结题报告章节结构和写作素材规划。
+- [docs/experiment_results.md](docs/experiment_results.md)：当前实验结果、图表路径和报告分析素材。
 - [dev_logs/README.md](dev_logs/README.md)：开发日志使用说明。
 - [dev_logs/2026-06-11.md](dev_logs/2026-06-11.md)：当前开发日志。
 - [configs/default.yaml](configs/default.yaml)：默认实验配置。

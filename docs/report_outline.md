@@ -37,6 +37,8 @@
 - 对比分析
 - 混淆矩阵和类别表现分析
 
+当前可参考 [experiment_results.md](experiment_results.md) 中的实验结果整理、图表路径和初步结论。
+
 ## 第 5 章 Web 演示系统
 
 - 系统功能设计
