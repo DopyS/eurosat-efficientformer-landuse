@@ -71,6 +71,12 @@ python -m src.eurosat_landuse.evaluate --config configs/default.yaml --checkpoin
 python -m src.eurosat_landuse.summarize_experiments --config configs/default.yaml
 ```
 
+生成报告图表：
+
+```bash
+python -m src.eurosat_landuse.plot_experiments --config configs/default.yaml
+```
+
 ## 开发流程
 
 1. 每次开发前查看当天 `dev_logs/YYYY-MM-DD.md`。
