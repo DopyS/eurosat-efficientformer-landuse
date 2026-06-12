@@ -13,7 +13,7 @@ data:
   num_workers: 2
 
 model:
-  name: efficientformerv2_s0.snap_dist_in1k
+  name: efficientformerv2_s0
   num_classes: 10
   pretrained: true
 
@@ -37,4 +37,3 @@ outputs:
   figures: outputs/figures
   metrics: outputs/metrics
   predictions: outputs/predictions
-

@@ -41,6 +41,12 @@ streamlit run app/streamlit_app.py
 python -m src.eurosat_landuse.data_smoke --config configs/default.yaml --download --batch-size 8
 ```
 
+完成数据 smoke test 后，可以运行单 batch 训练 smoke test：
+
+```bash
+python -m src.eurosat_landuse.train --config configs/default.yaml --smoke-test --download --batch-size 4
+```
+
 ## 开发流程
 
 1. 每次开发前查看当天 `dev_logs/YYYY-MM-DD.md`。

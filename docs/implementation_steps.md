@@ -41,6 +41,7 @@
 
 验收标准：
 
+- 能通过 `python -m src.eurosat_landuse.train --config configs/default.yaml --smoke-test --download --batch-size 4` 完成单 batch forward/backward。
 - 能完成小轮数训练。
 - 能保存本地 checkpoint。
 - 能输出验证集准确率和损失曲线。
