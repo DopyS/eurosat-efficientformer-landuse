@@ -77,25 +77,25 @@ python -m src.eurosat_landuse.summarize_experiments --config configs/default.yam
 
 ```bash
 python -m src.eurosat_landuse.plot_experiments --config configs/default.yaml
-python -m src.eurosat_landuse.plot_experiments --config configs/default.yaml --eval-json outputs/metrics/baseline_300b_eval_test_full.json --output-prefix baseline_300b_test_full
+python -m src.eurosat_landuse.plot_experiments --config configs/default.yaml --eval-json outputs/metrics/baseline_full_epoch_eval_test_full.json --output-prefix baseline_full_epoch_test_full
 ```
 
 生成错误分析 Markdown：
 
 ```bash
-python -m src.eurosat_landuse.analyze_errors --eval-json outputs/metrics/baseline_300b_eval_test_full.json
+python -m src.eurosat_landuse.analyze_errors --eval-json outputs/metrics/baseline_full_epoch_eval_test_full.json
 ```
 
 导出典型误分类样本：
 
 ```bash
-python -m src.eurosat_landuse.export_errors --config configs/baseline.yaml --checkpoint outputs/checkpoints/baseline_300b_best.pt --split test --true-class PermanentCrop --predicted-class HerbaceousVegetation --limit 12
+python -m src.eurosat_landuse.export_errors --config configs/baseline.yaml --checkpoint outputs/checkpoints/baseline_full_epoch_best.pt --split test --true-class PermanentCrop --predicted-class HerbaceousVegetation --limit 12
 ```
 
 命令行单图预测：
 
 ```bash
-python -m src.eurosat_landuse.predict --config configs/default.yaml --checkpoint outputs/checkpoints/baseline_300b_best.pt --image path/to/image.jpg --top-k 3
+python -m src.eurosat_landuse.predict --config configs/default.yaml --checkpoint outputs/checkpoints/baseline_full_epoch_best.pt --image path/to/image.jpg --top-k 3
 ```
 
 启动 Web 演示界面：
