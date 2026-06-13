@@ -81,6 +81,9 @@ python3 -m src.eurosat_landuse.analyze_errors --eval-json outputs/metrics/baseli
 
 ```bash
 python3 -m src.eurosat_landuse.export_errors --config configs/baseline.yaml --checkpoint outputs/checkpoints/baseline_100b_best.pt --split test --true-class River --predicted-class Highway --limit 12
+python3 -m src.eurosat_landuse.export_errors --config configs/baseline.yaml --checkpoint outputs/checkpoints/baseline_100b_best.pt --split test --true-class Forest --predicted-class SeaLake --limit 12
+python3 -m src.eurosat_landuse.export_errors --config configs/baseline.yaml --checkpoint outputs/checkpoints/baseline_100b_best.pt --split test --true-class PermanentCrop --predicted-class HerbaceousVegetation --limit 12
+python3 -m src.eurosat_landuse.export_errors --config configs/baseline.yaml --checkpoint outputs/checkpoints/baseline_100b_best.pt --split test --true-class Pasture --predicted-class Forest --limit 12
 ```
 
 ## 4. 报告材料检查
@@ -102,6 +105,9 @@ python3 -m src.eurosat_landuse.export_errors --config configs/baseline.yaml --ch
 - `outputs/figures/baseline_100b_test_full_per_class_accuracy.png`
 - `outputs/figures/streamlit_demo_ui.png`
 - `outputs/error_samples/test_River_to_Highway/contact_sheet.png`
+- `outputs/error_samples/test_Forest_to_SeaLake/contact_sheet.png`
+- `outputs/error_samples/test_PermanentCrop_to_HerbaceousVegetation/contact_sheet.png`
+- `outputs/error_samples/test_Pasture_to_Forest/contact_sheet.png`
 
 注意：`outputs/` 目录不会上传 GitHub，正式提交报告时应将需要的图表插入 DOCX/PDF，而不是依赖 GitHub 路径。
 
