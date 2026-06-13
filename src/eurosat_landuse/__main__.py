@@ -14,6 +14,7 @@ def main() -> int:
     print("  python -m src.eurosat_landuse.summarize_experiments --config configs/default.yaml")
     print("  python -m src.eurosat_landuse.plot_experiments --config configs/default.yaml")
     print("  python -m src.eurosat_landuse.analyze_errors --eval-json outputs/metrics/baseline_100b_eval_test_full.json")
+    print("  python -m src.eurosat_landuse.export_errors --checkpoint outputs/checkpoints/baseline_100b_best.pt --true-class River --predicted-class Highway")
     return 0
 
 

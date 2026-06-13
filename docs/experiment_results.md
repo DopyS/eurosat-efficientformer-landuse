@@ -101,6 +101,17 @@ python3 -m src.eurosat_landuse.analyze_errors --eval-json outputs/metrics/baseli
 
 - `outputs/metrics/baseline_100b_eval_test_full_error_analysis.md`
 
+典型误分类样本可由以下命令导出：
+
+```bash
+python3 -m src.eurosat_landuse.export_errors --config configs/baseline.yaml --checkpoint outputs/checkpoints/baseline_100b_best.pt --split test --true-class River --predicted-class Highway --limit 12
+```
+
+本地输出路径：
+
+- `outputs/error_samples/test_River_to_Highway/index.md`
+- `outputs/error_samples/test_River_to_Highway/contact_sheet.png`
+
 ## 后续实验建议
 
 - 扩大训练规模，例如 300 batch 或完整 1 epoch，对比 baseline 和 enhanced 是否出现更稳定差异。

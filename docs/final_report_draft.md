@@ -251,6 +251,8 @@ python -m src.eurosat_landuse.evaluate --config configs/baseline.yaml --checkpoi
 
 进一步统计混淆矩阵可知，完整测试集中最明显的错误方向为 `River -> Highway`，共有 146 个样本，占 River 类测试样本的 0.3605。其他主要混淆包括 `Forest -> SeaLake` 76 个、`SeaLake -> AnnualCrop` 76 个、`PermanentCrop -> HerbaceousVegetation` 74 个、`Pasture -> Forest` 55 个。这些混淆方向说明，模型在处理线状地物、水体边界、植被覆盖和农田纹理等场景时仍存在不足。
 
+为进一步观察错误样本，项目导出了 12 张 `River -> Highway` 典型误分类图像，并生成拼图 `outputs/error_samples/test_River_to_Highway/contact_sheet.png`。从报告写作角度，该图可用于展示模型将河流样本误判为道路样本的典型视觉情况，辅助说明遥感线状地物在短程训练下容易发生混淆。
+
 后续可通过更多训练轮数、类别均衡分析、错误样本可视化和 Grad-CAM 可解释性方法进一步分析这些类别。
 
 ## 第 5 章 Web 演示系统

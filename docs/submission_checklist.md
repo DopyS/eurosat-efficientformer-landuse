@@ -77,6 +77,12 @@ python3 -m src.eurosat_landuse.plot_experiments --config configs/default.yaml --
 python3 -m src.eurosat_landuse.analyze_errors --eval-json outputs/metrics/baseline_100b_eval_test_full.json
 ```
 
+导出典型误分类样本：
+
+```bash
+python3 -m src.eurosat_landuse.export_errors --config configs/baseline.yaml --checkpoint outputs/checkpoints/baseline_100b_best.pt --split test --true-class River --predicted-class Highway --limit 12
+```
+
 ## 4. 报告材料检查
 
 核心报告文档：
@@ -95,6 +101,7 @@ python3 -m src.eurosat_landuse.analyze_errors --eval-json outputs/metrics/baseli
 - `outputs/figures/baseline_100b_test_full_confusion_matrix.png`
 - `outputs/figures/baseline_100b_test_full_per_class_accuracy.png`
 - `outputs/figures/streamlit_demo_ui.png`
+- `outputs/error_samples/test_River_to_Highway/contact_sheet.png`
 
 注意：`outputs/` 目录不会上传 GitHub，正式提交报告时应将需要的图表插入 DOCX/PDF，而不是依赖 GitHub 路径。
 

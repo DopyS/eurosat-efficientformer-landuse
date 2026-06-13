@@ -86,6 +86,12 @@ python -m src.eurosat_landuse.plot_experiments --config configs/default.yaml --e
 python -m src.eurosat_landuse.analyze_errors --eval-json outputs/metrics/baseline_100b_eval_test_full.json
 ```
 
+导出典型误分类样本：
+
+```bash
+python -m src.eurosat_landuse.export_errors --config configs/baseline.yaml --checkpoint outputs/checkpoints/baseline_100b_best.pt --split test --true-class River --predicted-class Highway --limit 12
+```
+
 命令行单图预测：
 
 ```bash
