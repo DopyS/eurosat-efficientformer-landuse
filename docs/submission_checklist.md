@@ -38,7 +38,7 @@ python3 -m src.eurosat_landuse.train --config configs/default.yaml --smoke-test 
 单图预测检查：
 
 ```bash
-python3 -m src.eurosat_landuse.predict --config configs/default.yaml --checkpoint outputs/checkpoints/baseline_100b_best.pt --image path/to/image.jpg --top-k 3
+python3 -m src.eurosat_landuse.predict --config configs/default.yaml --checkpoint outputs/checkpoints/baseline_300b_best.pt --image path/to/image.jpg --top-k 3
 ```
 
 Web 界面检查：
@@ -53,9 +53,10 @@ streamlit run app/streamlit_app.py
 
 | Run | Split | Eval Loss | Eval Acc | Eval Samples |
 | --- | --- | ---: | ---: | ---: |
-| `baseline_100b` | val | 6.7928 | 0.7729 | 480 |
-| `enhanced_100b` | val | 3.1420 | 0.7167 | 480 |
 | `baseline_100b` | test | 4.7938 | 0.7748 | 4050 |
+| `baseline_300b` | val | 0.1958 | 0.9443 | 1920 |
+| `enhanced_300b` | val | 0.8644 | 0.8620 | 1920 |
+| `baseline_300b` | test | 0.2163 | 0.9356 | 4050 |
 
 重新生成实验汇总：
 
@@ -67,23 +68,21 @@ python3 -m src.eurosat_landuse.summarize_experiments --config configs/default.ya
 
 ```bash
 python3 -m src.eurosat_landuse.plot_experiments --config configs/default.yaml
-python3 -m src.eurosat_landuse.plot_experiments --config configs/default.yaml --eval-json outputs/metrics/baseline_100b_eval_val.json --output-prefix baseline_100b
-python3 -m src.eurosat_landuse.plot_experiments --config configs/default.yaml --eval-json outputs/metrics/baseline_100b_eval_test_full.json --output-prefix baseline_100b_test_full
+python3 -m src.eurosat_landuse.plot_experiments --config configs/default.yaml --eval-json outputs/metrics/baseline_300b_eval_test_full.json --output-prefix baseline_300b_test_full
 ```
 
 重新生成错误分析：
 
 ```bash
-python3 -m src.eurosat_landuse.analyze_errors --eval-json outputs/metrics/baseline_100b_eval_test_full.json
+python3 -m src.eurosat_landuse.analyze_errors --eval-json outputs/metrics/baseline_300b_eval_test_full.json
 ```
 
 导出典型误分类样本：
 
 ```bash
-python3 -m src.eurosat_landuse.export_errors --config configs/baseline.yaml --checkpoint outputs/checkpoints/baseline_100b_best.pt --split test --true-class River --predicted-class Highway --limit 12
-python3 -m src.eurosat_landuse.export_errors --config configs/baseline.yaml --checkpoint outputs/checkpoints/baseline_100b_best.pt --split test --true-class Forest --predicted-class SeaLake --limit 12
-python3 -m src.eurosat_landuse.export_errors --config configs/baseline.yaml --checkpoint outputs/checkpoints/baseline_100b_best.pt --split test --true-class PermanentCrop --predicted-class HerbaceousVegetation --limit 12
-python3 -m src.eurosat_landuse.export_errors --config configs/baseline.yaml --checkpoint outputs/checkpoints/baseline_100b_best.pt --split test --true-class Pasture --predicted-class Forest --limit 12
+python3 -m src.eurosat_landuse.export_errors --config configs/baseline.yaml --checkpoint outputs/checkpoints/baseline_300b_best.pt --split test --true-class PermanentCrop --predicted-class HerbaceousVegetation --limit 12
+python3 -m src.eurosat_landuse.export_errors --config configs/baseline.yaml --checkpoint outputs/checkpoints/baseline_300b_best.pt --split test --true-class Highway --predicted-class River --limit 12
+python3 -m src.eurosat_landuse.export_errors --config configs/baseline.yaml --checkpoint outputs/checkpoints/baseline_300b_best.pt --split test --true-class Pasture --predicted-class Forest --limit 12
 ```
 
 ## 4. 报告材料检查
@@ -99,15 +98,12 @@ python3 -m src.eurosat_landuse.export_errors --config configs/baseline.yaml --ch
 
 - `outputs/figures/experiment_accuracy.png`
 - `outputs/figures/experiment_loss.png`
-- `outputs/figures/baseline_100b_confusion_matrix.png`
-- `outputs/figures/baseline_100b_per_class_accuracy.png`
-- `outputs/figures/baseline_100b_test_full_confusion_matrix.png`
-- `outputs/figures/baseline_100b_test_full_per_class_accuracy.png`
+- `outputs/figures/baseline_300b_test_full_confusion_matrix.png`
+- `outputs/figures/baseline_300b_test_full_per_class_accuracy.png`
 - `outputs/figures/streamlit_demo_ui.png`
-- `outputs/error_samples/test_River_to_Highway/contact_sheet.png`
-- `outputs/error_samples/test_Forest_to_SeaLake/contact_sheet.png`
-- `outputs/error_samples/test_PermanentCrop_to_HerbaceousVegetation/contact_sheet.png`
-- `outputs/error_samples/test_Pasture_to_Forest/contact_sheet.png`
+- `outputs/error_samples/baseline_300b_test_PermanentCrop_to_HerbaceousVegetation/contact_sheet.png`
+- `outputs/error_samples/baseline_300b_test_Highway_to_River/contact_sheet.png`
+- `outputs/error_samples/baseline_300b_test_Pasture_to_Forest/contact_sheet.png`
 
 注意：`outputs/` 目录不会上传 GitHub，正式提交报告时应将需要的图表插入 DOCX/PDF，而不是依赖 GitHub 路径。
 
@@ -118,7 +114,7 @@ python3 -m src.eurosat_landuse.export_errors --config configs/baseline.yaml --ch
 - 整理后的结题报告 DOCX/PDF。
 - GitHub 仓库链接。
 - 项目源码压缩包，需排除 `data/`、`outputs/`、模型权重和课程原始材料。
-- 若老师要求演示，可本地保留 `outputs/checkpoints/baseline_100b_best.pt` 和 EuroSAT 数据集。
+- 若老师要求演示，可本地保留 `outputs/checkpoints/baseline_300b_best.pt` 和 EuroSAT 数据集。
 
 不建议提交：
 
