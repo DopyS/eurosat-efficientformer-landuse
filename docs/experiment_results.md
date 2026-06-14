@@ -30,7 +30,8 @@ EuroSAT 数据集按固定随机种子划分：
 - 300 batch 加强实验：训练 300 个 batch，验证 60 个 batch。
 - 完整 1 epoch 实验：训练完整 train split，验证完整 val split。
 - 3 epoch 加强实验：训练完整 train split 3 轮，验证完整 val split。
-- 完整测试集评估：使用当前表现最好的 `baseline_3epoch_best.pt` 在完整 test split 上评估 4050 个样本。
+- 5 epoch 加强实验：训练完整 train split 5 轮，验证完整 val split。
+- 完整测试集评估：使用当前表现最好的 `baseline_5epoch_best.pt` 在完整 test split 上评估 4050 个样本。
 
 ## 实验配置
 
@@ -65,6 +66,8 @@ EuroSAT 数据集按固定随机种子划分：
 | `baseline_3epoch` | val | 0.9312 | 0.0894 | 0.9704 | 4050 |
 | `enhanced_3epoch` | val | 0.5096 | 0.6690 | 0.9430 | 4050 |
 | `baseline_3epoch` | test | 0.9312 | 0.0950 | 0.9664 | 4050 |
+| `baseline_5epoch` | val | 0.9432 | 0.0667 | 0.9785 | 4050 |
+| `baseline_5epoch` | test | 0.9432 | 0.0798 | 0.9763 | 4050 |
 
 ## 图表路径
 
@@ -102,6 +105,11 @@ EuroSAT 数据集按固定随机种子划分：
 - `outputs/figures/baseline_3epoch_test_full_confusion_matrix.png`
 - `outputs/figures/baseline_3epoch_test_full_per_class_accuracy.png`
 
+5 epoch 基线模型分析图：
+
+- `outputs/figures/baseline_5epoch_test_full_confusion_matrix.png`
+- `outputs/figures/baseline_5epoch_test_full_per_class_accuracy.png`
+
 ## 初步分析结论
 
 1. 随着训练 batch 数增加，模型准确率明显提升。`quick_baseline` 的验证准确率只有 0.0625，而 `baseline_100b` 达到 0.7729，说明 EfficientFormerV2-S0 能够有效学习 EuroSAT 图像特征。
@@ -110,37 +118,37 @@ EuroSAT 数据集按固定随机种子划分：
 
 3. 在 100 batch 设置下，增强策略的验证准确率仍低于基线，但验证损失更低。`baseline_100b` 的验证准确率为 0.7729，验证损失为 6.7928；`enhanced_100b` 的验证准确率为 0.7167，验证损失为 3.1420。该现象说明增强策略可能改善了模型输出的损失表现或置信度分布，但短训练条件下尚未带来更高的分类准确率。
 
-4. 将训练规模扩大到 3 epoch 后，基线模型性能进一步提升。`baseline_3epoch` 的验证准确率达到 0.9704，完整测试集准确率达到 0.9664，相比 `baseline_100b` 的完整测试集准确率 0.7748 提升了 0.1916，相比 `baseline_full_epoch` 的完整测试集准确率 0.9543 继续提升 0.0121。
+4. 将训练规模扩大到 5 epoch 后，基线模型性能进一步提升。`baseline_5epoch` 的验证准确率达到 0.9785，完整测试集准确率达到 0.9763，相比 `baseline_100b` 的完整测试集准确率 0.7748 提升了 0.2015，相比 `baseline_3epoch` 的完整测试集准确率 0.9664 继续提升 0.0099。
 
-5. 在 3 epoch 同规模实验中，`enhanced_3epoch` 的验证准确率为 0.9430，低于 `baseline_3epoch` 的 0.9704。说明当前 Mixup、ColorJitter 和 Label Smoothing 组合在本项目设置下仍未超过基线，后续若继续优化，应优先尝试降低 Mixup 强度或加入学习率调度。
+5. 在 3 epoch 同规模实验中，`enhanced_3epoch` 的验证准确率为 0.9430，低于 `baseline_3epoch` 的 0.9704。由于 5 epoch baseline 已进一步提升至 0.9763 测试准确率，当前阶段暂不继续运行耗时较长的 `enhanced_5epoch`，后续若优化增强策略，应优先尝试降低 Mixup 强度或加入学习率调度。
 
-6. 3 epoch 测试集错误分析显示，最弱类别为 `HerbaceousVegetation`、`PermanentCrop`、`Industrial`、`AnnualCrop` 和 `Pasture`，其中最弱的 `HerbaceousVegetation` 准确率为 0.9346。主要混淆方向包括 `HerbaceousVegetation -> PermanentCrop` 15 个、`Industrial -> Residential` 14 个、`AnnualCrop -> PermanentCrop` 12 个、`PermanentCrop -> HerbaceousVegetation` 9 个。
+6. 5 epoch 测试集错误分析显示，最弱类别为 `PermanentCrop`、`Industrial`、`Pasture`、`HerbaceousVegetation` 和 `River`，其中最弱的 `PermanentCrop` 准确率为 0.9529。主要混淆方向包括 `Forest -> HerbaceousVegetation` 11 个、`PermanentCrop -> HerbaceousVegetation` 11 个、`Industrial -> Residential` 10 个、`River -> Highway` 8 个。
 
 ## 错误分析输出
 
 错误分析 Markdown 可由以下命令生成：
 
 ```bash
-python3 -m src.eurosat_landuse.analyze_errors --eval-json outputs/metrics/baseline_3epoch_eval_test_full.json
+python3 -m src.eurosat_landuse.analyze_errors --eval-json outputs/metrics/baseline_5epoch_eval_test_full.json
 ```
 
 本地输出路径：
 
-- `outputs/metrics/baseline_3epoch_eval_test_full_error_analysis.md`
+- `outputs/metrics/baseline_5epoch_eval_test_full_error_analysis.md`
 
 典型误分类样本可由以下命令导出：
 
 ```bash
-python3 -m src.eurosat_landuse.export_errors --config configs/baseline.yaml --checkpoint outputs/checkpoints/baseline_3epoch_best.pt --split test --true-class HerbaceousVegetation --predicted-class PermanentCrop --limit 12 --output-dir outputs/error_samples/baseline_3epoch_test_HerbaceousVegetation_to_PermanentCrop
-python3 -m src.eurosat_landuse.export_errors --config configs/baseline.yaml --checkpoint outputs/checkpoints/baseline_3epoch_best.pt --split test --true-class Industrial --predicted-class Residential --limit 12 --output-dir outputs/error_samples/baseline_3epoch_test_Industrial_to_Residential
-python3 -m src.eurosat_landuse.export_errors --config configs/baseline.yaml --checkpoint outputs/checkpoints/baseline_3epoch_best.pt --split test --true-class AnnualCrop --predicted-class PermanentCrop --limit 12 --output-dir outputs/error_samples/baseline_3epoch_test_AnnualCrop_to_PermanentCrop
+python3 -m src.eurosat_landuse.export_errors --config configs/baseline.yaml --checkpoint outputs/checkpoints/baseline_5epoch_best.pt --split test --true-class Forest --predicted-class HerbaceousVegetation --limit 12 --output-dir outputs/error_samples/baseline_5epoch_test_Forest_to_HerbaceousVegetation
+python3 -m src.eurosat_landuse.export_errors --config configs/baseline.yaml --checkpoint outputs/checkpoints/baseline_5epoch_best.pt --split test --true-class PermanentCrop --predicted-class HerbaceousVegetation --limit 12 --output-dir outputs/error_samples/baseline_5epoch_test_PermanentCrop_to_HerbaceousVegetation
+python3 -m src.eurosat_landuse.export_errors --config configs/baseline.yaml --checkpoint outputs/checkpoints/baseline_5epoch_best.pt --split test --true-class Industrial --predicted-class Residential --limit 12 --output-dir outputs/error_samples/baseline_5epoch_test_Industrial_to_Residential
 ```
 
 本地输出路径：
 
-- `outputs/error_samples/baseline_3epoch_test_HerbaceousVegetation_to_PermanentCrop/contact_sheet.png`
-- `outputs/error_samples/baseline_3epoch_test_Industrial_to_Residential/contact_sheet.png`
-- `outputs/error_samples/baseline_3epoch_test_AnnualCrop_to_PermanentCrop/contact_sheet.png`
+- `outputs/error_samples/baseline_5epoch_test_Forest_to_HerbaceousVegetation/contact_sheet.png`
+- `outputs/error_samples/baseline_5epoch_test_PermanentCrop_to_HerbaceousVegetation/contact_sheet.png`
+- `outputs/error_samples/baseline_5epoch_test_Industrial_to_Residential/contact_sheet.png`
 
 ## 后续实验建议
 
