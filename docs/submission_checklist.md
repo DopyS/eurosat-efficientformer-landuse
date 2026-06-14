@@ -38,7 +38,7 @@ python3 -m src.eurosat_landuse.train --config configs/default.yaml --smoke-test 
 单图预测检查：
 
 ```bash
-python3 -m src.eurosat_landuse.predict --config configs/default.yaml --checkpoint outputs/checkpoints/baseline_full_epoch_best.pt --image path/to/image.jpg --top-k 3
+python3 -m src.eurosat_landuse.predict --config configs/default.yaml --checkpoint outputs/checkpoints/baseline_3epoch_best.pt --image path/to/image.jpg --top-k 3
 ```
 
 Web 界面检查：
@@ -60,6 +60,9 @@ streamlit run app/streamlit_app.py
 | `baseline_full_epoch` | val | 0.1282 | 0.9560 | 4050 |
 | `enhanced_full_epoch` | val | 0.6647 | 0.9462 | 4050 |
 | `baseline_full_epoch` | test | 0.1357 | 0.9543 | 4050 |
+| `baseline_3epoch` | val | 0.0894 | 0.9704 | 4050 |
+| `enhanced_3epoch` | val | 0.6690 | 0.9430 | 4050 |
+| `baseline_3epoch` | test | 0.0950 | 0.9664 | 4050 |
 
 重新生成实验汇总：
 
@@ -71,21 +74,21 @@ python3 -m src.eurosat_landuse.summarize_experiments --config configs/default.ya
 
 ```bash
 python3 -m src.eurosat_landuse.plot_experiments --config configs/default.yaml
-python3 -m src.eurosat_landuse.plot_experiments --config configs/default.yaml --eval-json outputs/metrics/baseline_full_epoch_eval_test_full.json --output-prefix baseline_full_epoch_test_full
+python3 -m src.eurosat_landuse.plot_experiments --config configs/default.yaml --eval-json outputs/metrics/baseline_3epoch_eval_test_full.json --output-prefix baseline_3epoch_test_full
 ```
 
 重新生成错误分析：
 
 ```bash
-python3 -m src.eurosat_landuse.analyze_errors --eval-json outputs/metrics/baseline_full_epoch_eval_test_full.json
+python3 -m src.eurosat_landuse.analyze_errors --eval-json outputs/metrics/baseline_3epoch_eval_test_full.json
 ```
 
 导出典型误分类样本：
 
 ```bash
-python3 -m src.eurosat_landuse.export_errors --config configs/baseline.yaml --checkpoint outputs/checkpoints/baseline_full_epoch_best.pt --split test --true-class PermanentCrop --predicted-class HerbaceousVegetation --limit 12
-python3 -m src.eurosat_landuse.export_errors --config configs/baseline.yaml --checkpoint outputs/checkpoints/baseline_full_epoch_best.pt --split test --true-class Pasture --predicted-class HerbaceousVegetation --limit 12
-python3 -m src.eurosat_landuse.export_errors --config configs/baseline.yaml --checkpoint outputs/checkpoints/baseline_full_epoch_best.pt --split test --true-class Industrial --predicted-class Residential --limit 12
+python3 -m src.eurosat_landuse.export_errors --config configs/baseline.yaml --checkpoint outputs/checkpoints/baseline_3epoch_best.pt --split test --true-class HerbaceousVegetation --predicted-class PermanentCrop --limit 12
+python3 -m src.eurosat_landuse.export_errors --config configs/baseline.yaml --checkpoint outputs/checkpoints/baseline_3epoch_best.pt --split test --true-class Industrial --predicted-class Residential --limit 12
+python3 -m src.eurosat_landuse.export_errors --config configs/baseline.yaml --checkpoint outputs/checkpoints/baseline_3epoch_best.pt --split test --true-class AnnualCrop --predicted-class PermanentCrop --limit 12
 ```
 
 ## 4. 报告材料检查
@@ -101,12 +104,12 @@ python3 -m src.eurosat_landuse.export_errors --config configs/baseline.yaml --ch
 
 - `outputs/figures/experiment_accuracy.png`
 - `outputs/figures/experiment_loss.png`
-- `outputs/figures/baseline_full_epoch_test_full_confusion_matrix.png`
-- `outputs/figures/baseline_full_epoch_test_full_per_class_accuracy.png`
+- `outputs/figures/baseline_3epoch_test_full_confusion_matrix.png`
+- `outputs/figures/baseline_3epoch_test_full_per_class_accuracy.png`
 - `outputs/figures/streamlit_demo_ui.png`
-- `outputs/error_samples/baseline_full_epoch_test_PermanentCrop_to_HerbaceousVegetation/contact_sheet.png`
-- `outputs/error_samples/baseline_full_epoch_test_Pasture_to_HerbaceousVegetation/contact_sheet.png`
-- `outputs/error_samples/baseline_full_epoch_test_Industrial_to_Residential/contact_sheet.png`
+- `outputs/error_samples/baseline_3epoch_test_HerbaceousVegetation_to_PermanentCrop/contact_sheet.png`
+- `outputs/error_samples/baseline_3epoch_test_Industrial_to_Residential/contact_sheet.png`
+- `outputs/error_samples/baseline_3epoch_test_AnnualCrop_to_PermanentCrop/contact_sheet.png`
 
 注意：`outputs/` 目录不会上传 GitHub，正式提交报告时应将需要的图表插入 DOCX/PDF，而不是依赖 GitHub 路径。
 
@@ -117,7 +120,7 @@ python3 -m src.eurosat_landuse.export_errors --config configs/baseline.yaml --ch
 - 整理后的结题报告 DOCX/PDF。
 - GitHub 仓库链接。
 - 项目源码压缩包，需排除 `data/`、`outputs/`、模型权重和课程原始材料。
-- 若老师要求演示，可本地保留 `outputs/checkpoints/baseline_full_epoch_best.pt` 和 EuroSAT 数据集。
+- 若老师要求演示，可本地保留 `outputs/checkpoints/baseline_3epoch_best.pt` 和 EuroSAT 数据集。
 
 不建议提交：
 
@@ -133,4 +136,4 @@ python3 -m src.eurosat_landuse.export_errors --config configs/baseline.yaml --ch
 
 - 当前实验以限制 batch 的短程训练为主，主要用于验证系统链路和初步效果。
 - 增强策略在短训练下准确率未超过基线，但验证损失更低，后续需要完整 epoch 或多 epoch 训练进一步确认。
-- 测试集评估已覆盖完整 test split 的 4050 个样本，当前主结果来自完整 1 epoch 训练。若追求更强论文级结论，可继续运行多 epoch 并报告均值或最优结果。
+- 测试集评估已覆盖完整 test split 的 4050 个样本，当前主结果来自 3 epoch 训练。若追求更强论文级结论，可继续运行更多 epoch 并报告均值或最优结果。
