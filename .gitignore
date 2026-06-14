@@ -2,6 +2,7 @@
 题目要求.jpeg
 利兹2023级生产实习学生选题列表.pdf
 工程实习结题报告模板.docx
+工程实习结题报告模板_原始备份.docx
 
 # Datasets and generated artifacts
 data/
@@ -39,4 +40,3 @@ dist/
 # Notebook and OS artifacts
 .ipynb_checkpoints/
 .DS_Store
-
